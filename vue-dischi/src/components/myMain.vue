@@ -1,0 +1,120 @@
+<template>
+    <main>
+
+        <div class="container-main"> 
+
+            <div class="vinyl-card" v-for="(album,index) in albumList" :key="index">
+                
+                <img :src="album.poster" alt="Vinyl Poster">
+                
+                <div class="card-text text-center">
+                    <span class="title-vinyl text-uppercase">{{album.title}}</span>
+                    <div class="text-gray">
+                        <span>{{album.author}}</span>
+                        <span>{{album.year}}</span>
+                    </div>
+                </div> 
+                
+            </div>
+  
+        </div>
+
+    </main>
+</template>
+
+<script>
+const axios = require('axios');
+
+export default {
+    name:'myMain',
+
+    data(){
+        return{
+            albumList: [],
+        }
+    },
+
+    methods : {
+
+        getAlbum(){
+           axios.get('https://flynn.boolean.careers/exercises/api/array/music')
+           
+            .then((response) => {
+                this.albumList = response.data.response;
+                console.log(response);
+                console.log(this.albumList)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {});
+        }
+    },
+    created(){
+        this.getAlbum()
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+@import "../assets/style/general.scss";
+
+    main{
+        height: calc(100vh - 60px);
+        width: 100%;
+        background-color: #1E2D3B;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .container-main {
+            width: 62%;
+            height: 520px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
+
+            .vinyl-card {
+                width: 18%;
+                height: 250px;
+                background-color: #2E3A46;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                img {
+                    margin-top: 20px;
+                    width: 115px;
+                    height: 115px;
+                }
+
+                .card-text {
+                    width: 80%;
+                    height: 90px;
+                    line-height: 16px;
+                    margin-top: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    
+
+                    .title-vinyl {
+                        color: #fff;
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+
+                    .text-gray {
+                        display: flex;
+                        flex-direction: column;
+                        margin-top: 20px;
+                        font-size: 14px;
+                        color: #808078;
+                        line-height: 16px;
+                    }
+                }
+            }
+        }   
+    }
+</style>

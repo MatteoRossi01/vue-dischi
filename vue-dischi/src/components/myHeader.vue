@@ -1,13 +1,9 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-header">
 
-    <div class="navbar my_navbar">
-
-        <a class="navbar-brand my_style-brand" href="#">
-            <img :src="img" alt="">
-        </a>
-
-    </div>
+    <a class="" href="#">
+        <img :src="img" alt="Logo Spotify">
+    </a>
 
   </div>
 </template>
@@ -25,9 +21,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/style/general.scss";
-.my_navbar{
+.container-header{
     background-color: #000;
     height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 img {
