@@ -1,7 +1,11 @@
 <template>
     <main>
 
-        <div class="container-main"> 
+        <myLoading :loading="loading"/> 
+
+        <div class="container-main">
+            
+            
 
             <div class="vinyl-card" v-for="(album,index) in albumList" :key="index">
                 
@@ -25,12 +29,20 @@
 <script>
 const axios = require('axios');
 
+import  myLoading from './partials/myLoading.vue'
+
 export default {
     name:'myMain',
+
+    components :{
+        myLoading
+    },
 
     data(){
         return{
             albumList: [],
+
+            loading: true,
         }
     },
 
@@ -48,6 +60,10 @@ export default {
                 console.log(error);
             })
             .then(function () {});
+
+            setTimeout(() => {
+                this.loading = false;
+            }, 400);
         }
     },
     created(){
