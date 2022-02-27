@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <myHeader/>
-    <myMain/>
+    <myHeader @selectedGenreEvt="setSelectedGenre" :genresList="genresList"/>
+    <myMain @genresReady="setGenres" :selectedGenre="selectedGenre"/>
   </div>
 </template>
 
@@ -14,6 +14,20 @@ export default {
   components: {
     myHeader,
     myMain,
+  },
+  data() {
+    return {
+      genresList: [],
+      selectedGenre: '',
+    }
+  },
+  methods: {
+    setGenres(genresListEvt) {
+      this.genresList = genresListEvt;
+    },
+    setSelectedGenre(selectedGenreEvt) {
+      this.selectedGenre = selectedGenreEvt;
+    }
   }
 }
 </script>

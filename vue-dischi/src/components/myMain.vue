@@ -5,9 +5,7 @@
 
         <div class="container-main">
             
-            
-
-            <div class="vinyl-card" v-for="(album,index) in albumList" :key="index">
+            <div class="vinyl-card" v-for="(album,index) in filteredAlbum" :key="index">
                 
                 <img :src="album.poster" alt="Vinyl Poster">
                 
@@ -38,37 +36,62 @@ export default {
         myLoading
     },
 
+    props: {
+        'selectedGenre': String
+    },
+
     data(){
         return{
             albumList: [],
-
+            genres: [],
             loading: true,
         }
+    },
+
+    computed: {
+        filteredAlbum () {
+
+            if (this.selectedGenre == '') {
+                return this.albumList;
+            } else {
+                return this.albumList.filter( album => {
+                    return album.genre == this.selectedGenre;
+                });
+            }
+        },
+        
     },
 
     methods : {
 
         getAlbum(){
            axios.get('https://flynn.boolean.careers/exercises/api/array/music')
-           
+            
             .then((response) => {
                 this.albumList = response.data.response;
-                console.log(response);
-                console.log(this.albumList)
+
+                this.albumList.forEach(album => {
+                    if (!this.genres.includes(album.genre)) {
+                        this.genres.push(album.genre);
+                    }
+                });
+
+                this.$emit('genresReady', this.genres);
+                
             })
             .catch(function (error) {
                 console.log(error);
             })
-            .then(function () {});
 
             setTimeout(() => {
                 this.loading = false;
             }, 400);
+  
         }
     },
     created(){
         this.getAlbum()
-    }
+    },
 }
 </script>
 
@@ -99,6 +122,7 @@ export default {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                cursor: pointer;
 
                 img {
                     margin-top: 20px;
